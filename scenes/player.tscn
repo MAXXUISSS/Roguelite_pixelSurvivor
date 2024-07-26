@@ -1,0 +1,149 @@
+[gd_scene load_steps=19 format=3 uid="uid://bo6sqkgcyx8xp"]
+
+[ext_resource type="Script" path="res://scripts/player.gd" id="1_2o1ij"]
+[ext_resource type="Texture2D" uid="uid://cfmglyks5twgb" path="res://assets/player.png" id="1_74tsm"]
+[ext_resource type="PackedScene" uid="uid://bwwymxicqsnvf" path="res://scenes/gun.tscn" id="3_6hl4u"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jqk4r"]
+atlas = ExtResource("1_74tsm")
+region = Rect2(96, 96, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aicyx"]
+atlas = ExtResource("1_74tsm")
+region = Rect2(120, 96, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gaeet"]
+atlas = ExtResource("1_74tsm")
+region = Rect2(144, 96, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_haqht"]
+atlas = ExtResource("1_74tsm")
+region = Rect2(168, 96, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5all6"]
+atlas = ExtResource("1_74tsm")
+region = Rect2(0, 0, 24, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qtxo7"]
+atlas = ExtResource("1_74tsm")
+region = Rect2(24, 0, 24, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gsqr0"]
+atlas = ExtResource("1_74tsm")
+region = Rect2(96, 24, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_46hh8"]
+atlas = ExtResource("1_74tsm")
+region = Rect2(120, 24, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ciial"]
+atlas = ExtResource("1_74tsm")
+region = Rect2(144, 24, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nyvs5"]
+atlas = ExtResource("1_74tsm")
+region = Rect2(168, 24, 24, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ey6k5"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jqk4r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aicyx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gaeet")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_haqht")
+}],
+"loop": true,
+"name": &"death",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5all6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qtxo7")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gsqr0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_46hh8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ciial")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nyvs5")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_yrjt0"]
+radius = 3.0
+height = 8.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_oqhbs"]
+radius = 4.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ilgwh"]
+bg_color = Color(0.152941, 0.168627, 0.188235, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tftac"]
+bg_color = Color(0.478431, 1, 0.313726, 1)
+
+[node name="player" type="CharacterBody2D"]
+script = ExtResource("1_2o1ij")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_ey6k5")
+animation = &"idle"
+autoplay = "idle"
+frame_progress = 0.171122
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 5)
+shape = SubResource("CapsuleShape2D_yrjt0")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(3, 3)
+limit_left = -63
+limit_top = -64
+limit_right = 382
+limit_bottom = 240
+
+[node name="gun" parent="." instance=ExtResource("3_6hl4u")]
+position = Vector2(13, 1)
+
+[node name="hurtBox" type="Area2D" parent="."]
+unique_name_in_owner = true
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hurtBox"]
+position = Vector2(0, 6)
+shape = SubResource("CircleShape2D_oqhbs")
+debug_color = Color(0.7456, 0.355694, 0.757589, 0.42)
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+offset_left = -10.0
+offset_top = -13.0
+offset_right = 10.0
+offset_bottom = -8.0
+theme_override_styles/background = SubResource("StyleBoxFlat_ilgwh")
+theme_override_styles/fill = SubResource("StyleBoxFlat_tftac")
+value = 100.0
+show_percentage = false
